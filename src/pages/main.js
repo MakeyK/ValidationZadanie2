@@ -118,6 +118,7 @@ const MainPage = observer(() => {
                 <Button
                             type="submit"
                             size={"lg"}
+                            onChange={handleChange}
                             variant={"outline-success"}
                             style={{fontWeight:'bold', borderRadius:37, width:'180px', height:'70px'}}
                             >
