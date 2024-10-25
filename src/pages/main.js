@@ -17,36 +17,47 @@ const MainPage = observer(() => {
       address: '',
       message: '',
     });
-
     const [errors, setErrors] = useState('');
 
-    const Change = (e) => {
-      
-    }
-
-    const Submit = () => {
-      
-    }
+    useEffect(() => {
+      const newErrors = {};
+      for (const [key, value] of Object.entries(formData)) {
+        if (!value) {
+          newErrors[key] = 'Поле не может быть пустым';
+        }
+      }
+      setErrors(newErrors);
+    }, [formData]);
   
-    // useEffect(() => {
-    //   if (errors.length > 0) {
-    //     alert(errors.join('\n'));
-    //   }
-    // }, [errors]);
+    const Change = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    };
+  
+    const Submit = (e) => {
+      e.preventDefault();
+      if (Object.keys(errors).length === 0) {
+        console.log('Данные отправлены:', formData);
+      }
+    };
+    
 
 
     return (
         <Container
         style = {{backgroundColor:'#D0D0D0', justifyContent:'space-between', position:'relative', padding:'20px', borderRadius: '15px', width: '1240px', height: '1100px', marginTop:'6px', fontFamily:"Play", paddingTop: '10px'}}>
         <Card style={{borderRadius: 80, fontFamily:"Play"}} className="p-5 #FFFAF4">
-        <Form className="d-flex flex-column">
+        <Form className="d-flex flex-column" onSubmit={Submit}>
         <Form.Control
                 style={{borderRadius: 70, height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
                 className="mt-3"
                 placeholder = "Введите имя..."
                 size="lg"
-                type="text"
-                value={formData.name}
+                type={formData.name}
+            //     isInvalid={!!errors[key]}
                 onChange={Change}/>
           <Form.Control
                 style={{borderRadius: 70, height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
@@ -54,7 +65,6 @@ const MainPage = observer(() => {
                 placeholder = "Введите номер телефона..."
                 size="lg"
                 type="number"
-                // value={formData.phone}
                 onChange={Change}/>
           <Form.Control
                 style={{borderRadius: 70, height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
@@ -62,7 +72,6 @@ const MainPage = observer(() => {
                 placeholder = "Введите email адрес..."
                 size="lg"
                 type="email" 
-                value={formData.email}
                 onChange={Change}/>
           <Form.Control
                 style={{borderRadius: 40, height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px', height: '150px'}}
@@ -70,7 +79,6 @@ const MainPage = observer(() => {
                 placeholder = "Ваще сообщение"
                 size="lg"
                 type="text" 
-                // value={formData.message}
                 onChange={Change}/>
                 <p style={{marginTop:'30px', display:'flex', justifyContent:'center'}}>
                 <Button
