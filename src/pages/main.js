@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {observer} from "mobx-react-lite";
-import {Card, Container, Form, Button, Col} from 'react-bootstrap';
+import {Card, Container, Form, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -9,23 +9,37 @@ const MainPage = observer(() => {
     const [formData, setFormData] = useState({
       name: '',
       phone: '',
-      email: ''
+      number1: '',
+      time: '',
+      checkbox: false,
     });
     const [nameError, setNameError] = useState();
     const [phoneError, setPhoneError] = useState();
-    const [emailError, setEmailError] = useState();
+    const [number1Error, setNumber1Error] = useState();
+    const [timeError, setTimeError] = useState();
+    const [checkboxError, setCheckboxError] = useState();
+
     useEffect(() => {
-      if (formData.name === '' || formData.phone === '' || formData.email === '') {
+      if (formData.name === '' || formData.phone === '' || formData.number1 === '' || formData.time === '' || formData.checkbox === '') {
         return;
       }});
-    
+
       const Submit = (e) => {
     // Метод обьекта, для отмены действия браузера по умолчанию, связанного с определённым событием. Отменить переход по ссылке при клике на неё
       e.preventDefault(); 
       setNameError(formData.name === '');
       setPhoneError(formData.phone === '');
-      setEmailError(formData.email === '');
+      setNumber1Error(formData.number1 === '');
+      setTimeError(formData.time === '');
+      setCheckboxError(formData.checkbox === '')
     }
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target;
+      setFormData({
+          ...formData,
+          [name]: type === 'checkbox' ? checked : value,
+      });
+  };
 
     return (
         <Container
@@ -35,6 +49,7 @@ const MainPage = observer(() => {
         <Form.Control
                 style={{borderRadius: 70, backgroundColor: '#7F933A', height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
                 className="mt-3"
+                type="text"
                 placeholder = "Введите имя..."
                 size="lg"
                 onChange={(e) => setFormData({ name: e.target.value })}/>
@@ -42,6 +57,7 @@ const MainPage = observer(() => {
           <Form.Control
                 style={{borderRadius: 70, backgroundColor: '#7F933A', height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
                 className="mt-3"
+                type="text"
                 placeholder = "Введите номер телефона..."
                 size="lg"
                 // Это обработчик изменения значения для поля телефона в форме. 
@@ -51,11 +67,27 @@ const MainPage = observer(() => {
           <Form.Control
                 style={{borderRadius: 70, backgroundColor: '#7F933A', height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
                 className="mt-3"
-                placeholder = "Введите email адрес..."
+                placeholder = "Введите число..."
                 size="lg"
-                type="email" 
-                onChange={(e) => setFormData({ email: e.target.value })}/>
-                {emailError && <p style={{ color: 'red' }}>Поле не может быть пустым или введен некорректный email</p>}
+                onChange={(e) => setFormData({ number1: e.target.value })}/>
+                {number1Error && <p style={{ color: 'red' }}>Поле не может быть пустым</p>}
+          <Form.Control
+                style={{borderRadius: 70, backgroundColor: '#7F933A', height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
+                className="mt-3"
+                type="checkbox"
+                placeholder = "Выберите..."
+                size="lg"
+                onChange={handleChange}/>
+                {/* onChange={(e) => setFormData({ checkbox: e.target.value })}/> */}
+                {checkboxError && <p style={{ color: 'red' }}>Вы не выбрали</p>}
+          <Form.Control
+                style={{borderRadius: 70, backgroundColor: '#7F933A', height: 71, border: "1px solid", fontSize: "24px", marginBottom:'20px'}}
+                className="mt-3"
+                type="time"
+                placeholder = "Выберите время..."
+                size="lg"
+                onChange={(e) => setFormData({ time: e.target.value })}/>
+                {timeError && <p style={{ color: 'red' }}>Вам нужно выбрать время</p>}
                 <p style={{marginTop:'30px', display:'flex', justifyContent:'center'}}>
                 <Button
                             type="submit"
