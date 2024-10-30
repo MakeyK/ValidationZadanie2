@@ -1,12 +1,12 @@
 import { BrowserRouter } from "react-router-dom"; 
-import AppRouter from "./components/AppRouter";  
 import MainPage from "./pages/main";
+import MyForm from "./pages/main1";
 
 function App() { 
   return ( 
     <BrowserRouter> 
 
-      <AppRouter/> 
+      {/* <MyForm/> */}
       <MainPage/>
     </BrowserRouter> 
   ); 
